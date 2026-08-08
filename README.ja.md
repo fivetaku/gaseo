@@ -48,6 +48,7 @@
 
 話しかけても動きます:
 
+- 「파세오로 가세오」
 - 「이 세션 파세오로 가세오」
 - 「가세오 해줘」
 - "register this session to paseo"
@@ -109,7 +110,7 @@ Paseo は会話そのものを保存しません。各エージェントのレ�
 
 ### 自然言語トリガー
 
-- 「이 세션 파세오로 가세오」「가세오 해줘」「파세오로 가세요」「파세오에 등록해줘」
+- `/gaseo`「파세오로 가세오」「이 세션 파세오로 가세오」「가세오 해줘」「파세오에 등록해줘」
 - 「과거 세션 파세오로 가져와줘」
 - "register this session to paseo", "send this session to paseo"
 - "import my past sessions into paseo"

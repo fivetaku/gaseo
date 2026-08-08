@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.3 — 2026-08-08
+
+- Dropped 가세요 from the trigger lists entirely. The triggers are `/gaseo` and
+  가세오 phrasings ("파세오로 가세오", "이 세션 파세오로 가세오", "가세오 해줘") —
+  keeping the old spelling around as an alternate only muddied which name is
+  the real one. Supersedes the note in 0.1.2.
+
 ## 0.1.2 — 2026-08-08
 
 - Corrected the Korean name: the plugin is **가세오**, not 가세요 — it rhymes with

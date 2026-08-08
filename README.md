@@ -48,6 +48,7 @@ To bring in older conversations from this folder instead:
 
 Or just say it:
 
+- "파세오로 가세오"
 - "이 세션 파세오로 가세오"
 - "가세오 해줘"
 - "register this session to paseo"
@@ -111,7 +112,7 @@ is instant, needs no daemon restart, and never duplicates your data.
 
 ### Natural language triggers
 
-- "이 세션 파세오로 가세오", "가세오 해줘", "파세오로 가세요", "파세오에 등록해줘"
+- `/gaseo`, "파세오로 가세오", "이 세션 파세오로 가세오", "가세오 해줘", "파세오에 등록해줘"
 - "과거 세션 파세오로 가져와줘", "지난 대화 파세오에 추가해줘"
 - "register this session to paseo", "send this session to paseo"
 - "import my past sessions into paseo"

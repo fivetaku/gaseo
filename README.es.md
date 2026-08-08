@@ -48,6 +48,7 @@ Para traer conversaciones anteriores de esta carpeta:
 
 O simplemente dilo:
 
+- «파세오로 가세오»
 - «이 세션 파세오로 가세오»
 - «가세오 해줘»
 - "register this session to paseo"
@@ -109,7 +110,7 @@ Paseo no guarda ninguna conversación propia. Cada registro de agente contiene �
 
 ### Disparadores en lenguaje natural
 
-- «이 세션 파세오로 가세오», «가세오 해줘», «파세오로 가세요», «파세오에 등록해줘»
+- `/gaseo`, «파세오로 가세오», «이 세션 파세오로 가세오», «가세오 해줘», «파세오에 등록해줘»
 - «과거 세션 파세오로 가져와줘»
 - "register this session to paseo", "send this session to paseo"
 - "import my past sessions into paseo"

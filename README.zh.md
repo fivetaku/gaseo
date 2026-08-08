@@ -48,6 +48,7 @@
 
 直接说也行：
 
+- 「파세오로 가세오」
 - 「이 세션 파세오로 가세오」
 - 「가세오 해줘」
 - "register this session to paseo"
@@ -109,7 +110,7 @@ Paseo 本身不存储对话。每条 agent 记录里只有一个指向 Claude �
 
 ### 自然语言触发词
 
-- 「이 세션 파세오로 가세오」「가세오 해줘」「파세오로 가세요」「파세오에 등록해줘」
+- `/gaseo`「파세오로 가세오」「이 세션 파세오로 가세오」「가세오 해줘」「파세오에 등록해줘」
 - 「과거 세션 파세오로 가져와줘」
 - "register this session to paseo", "send this session to paseo"
 - "import my past sessions into paseo"
