@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.1 — 2026-08-08
+
+- Current-session detection now uses `$CLAUDE_CODE_SESSION_ID`, the ID Claude
+  Code exports for the live session, and falls back to the newest-transcript
+  guess only when that is unavailable or points outside the target folder.
+  The old guess reliably mis-fired: background subagents and hook-spawned
+  sessions write transcripts into the same directory and are often newer, so
+  `/gaseo` could register a security-review sidecar instead of your conversation.
+- The `DETECTED` line now reports `via=env`, `via=mtime` or `via=explicit`, so a
+  guessed match is visibly a guess.
+
 ## 0.1.0 — 2026-08-08
 
 - First release. `/gaseo` registers the Claude Code session you are talking to

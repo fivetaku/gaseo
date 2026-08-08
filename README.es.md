@@ -75,7 +75,7 @@ O simplemente dilo:
 /gaseo
   → localiza el directorio de sesiones de esta carpeta
       ~/.claude/projects/<ruta con los caracteres no alfanuméricos como '-'>/
-  → el .jsonl más reciente = la sesión que se está escribiendo ahora = esta
+  → $CLAUDE_CODE_SESSION_ID si su transcripción está aquí; si no, el .jsonl más reciente
   → ¿ya está en ~/.paseo/agents? → la omite, lo informa y termina
   → paseo import <idDeSesión> --provider claude --cwd <carpeta>
   → aparece en Paseo con su título original
@@ -118,7 +118,7 @@ Paseo no guarda ninguna conversación propia. Cada registro de agente contiene �
 
 ## Notas y límites
 
-**Dos sesiones vivas en una misma carpeta.** La detección elige la transcripción escrita más recientemente. Si hay dos sesiones activas en la misma carpeta, puede tratarse de la otra, así que `gaseo` imprime el primer mensaje de la que eligió y te pide confirmación antes de que dependas de ello. Usa `/gaseo past` para elegir de forma explícita.
+**Cómo se identifica la sesión actual.** `gaseo` lee `$CLAUDE_CODE_SESSION_ID`, el ID que Claude Code expone para la sesión viva, y comprueba que exista una transcripción correspondiente en la carpeta. Solo cuando eso no está disponible recurre a elegir la transcripción escrita más recientemente: una conjetura, porque los subagentes en segundo plano y las sesiones lanzadas por hooks escriben en el mismo directorio y suelen ser más nuevas. La salida indica qué ruta se usó (`via=env` o `via=mtime`); ante una conjetura `via=mtime`, revisa el primer mensaje que imprime o usa `/gaseo past` para elegir explícitamente.
 
 **Solo sesiones de Claude.** Las de codex se guardan por fecha en lugar de por carpeta, así que la correspondencia carpeta-sesión en la que esto se apoya todavía no les aplica.
 

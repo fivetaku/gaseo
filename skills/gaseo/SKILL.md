@@ -36,16 +36,23 @@ Read the output:
 
 | Line | Meaning | Response |
 |------|---------|----------|
-| `DETECTED first_message=…` | Which session was picked | Quote it back so the user can confirm it is the right one |
+| `DETECTED via=env …` | Resolved from Claude Code's own session ID | Reliable — mention the title in passing |
+| `DETECTED via=mtime …` | Guessed from the newest transcript | Quote the first message back and have the user confirm before relying on it |
 | `REGISTERED session=… cwd=…` | Success | Report that it now appears in Paseo under its original title |
 | `ALREADY_REGISTERED session=…` | Session is already a Paseo agent | Report that nothing was duplicated |
 | `ERROR …` (stderr, exit 1) | Failure | Go to Step 5 |
 
-The detection rule: a live session's `.jsonl` is being appended to continuously,
-so the most recently modified transcript in the folder's session directory is
-the current session. When two sessions of the same folder are active at once,
-the newest-mtime file may belong to the other one — that is why the
-`DETECTED` line is quoted back before moving on.
+How the current session is resolved, in order:
+
+1. **`$CLAUDE_CODE_SESSION_ID`** — Claude Code exports the live session's own ID.
+   Used only when a matching transcript exists in the target folder's project
+   directory, since the variable can survive into unrelated child contexts and
+   the named folder may not be the one this session runs in.
+2. **Newest transcript** — a live session's `.jsonl` is appended to continuously,
+   so the most recently modified file is usually the current one. This is a
+   guess: background subagents and hook-spawned sessions write into the same
+   directory and are frequently newer. When the output says `via=mtime`, confirm
+   before trusting it, or use `/gaseo past` to pick explicitly.
 
 ### Step 3 — List past sessions
 

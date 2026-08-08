@@ -75,7 +75,7 @@ Or just say it:
 /gaseo
   → find this folder's session directory
       ~/.claude/projects/<folder path with non-alphanumerics as '-'>/
-  → newest .jsonl = the session being written to right now = this one
+  → $CLAUDE_CODE_SESSION_ID if its transcript is here, else newest .jsonl
   → already in ~/.paseo/agents? → skip, report, done
   → paseo import <sessionId> --provider claude --cwd <folder>
   → appears in Paseo under its original title
@@ -120,7 +120,7 @@ is instant, needs no daemon restart, and never duplicates your data.
 
 ## Notes and limits
 
-**Two live sessions in one folder.** Detection picks the most recently written transcript. If two sessions of the same folder are active at once, that can be the other one — so `gaseo` prints the first message of whatever it picked and asks you to confirm before you count on it. Use `/gaseo past` to choose explicitly.
+**How the current session is identified.** `gaseo` reads `$CLAUDE_CODE_SESSION_ID`, the ID Claude Code exports for the live session, and confirms a matching transcript exists in the folder. Only when that is unavailable does it fall back to picking the most recently written transcript — a guess, because background subagents and hook-spawned sessions write into the same directory and are often newer. The output labels which route was used (`via=env` or `via=mtime`); on a `via=mtime` guess, check the first message it prints, or use `/gaseo past` to choose explicitly.
 
 **Claude sessions only.** Codex sessions are stored by date rather than by folder, so the folder-to-session mapping this relies on doesn't apply to them yet.
 
