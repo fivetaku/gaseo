@@ -1,6 +1,6 @@
 [English](README.md) | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](README.ja.md) | Español
 
-# gaseo (가세요)
+# gaseo (가세오)
 
 <p align="center">
   <img src="assets/gaseo-hero-01.png" alt="gaseo" width="320">
@@ -8,7 +8,7 @@
 
 > **Manda a Paseo la sesión en la que estás ahora mismo — y sigue desde allí.**
 
-[Paseo](https://paseo.app) solo lista los agentes que él mismo lanzó. Una sesión que abriste escribiendo `claude` en la terminal no aparece nunca, y no hay forma de retomarla desde la app. `gaseo` cierra ese hueco: di «가세요» y la conversación que estás teniendo en este segundo aparece en Paseo con su propio título, lista para continuar.
+[Paseo](https://paseo.app) solo lista los agentes que él mismo lanzó. Una sesión que abriste escribiendo `claude` en la terminal no aparece nunca, y no hay forma de retomarla desde la app. `gaseo` cierra ese hueco: di «가세오» y la conversación que estás teniendo en este segundo aparece en Paseo con su propio título, lista para continuar.
 
 [Inicio rápido](#inicio-rápido) • [Por qué gaseo](#por-qué-gaseo) • [Cómo funciona](#cómo-funciona) • [Funciones](#funciones) • [Comandos](#comandos) • [Requisitos](#requisitos)
 
@@ -48,8 +48,8 @@ Para traer conversaciones anteriores de esta carpeta:
 
 O simplemente dilo:
 
-- «이 세션 파세오로 가세요»
-- «가세요 해줘»
+- «이 세션 파세오로 가세오»
+- «가세오 해줘»
 - "register this session to paseo"
 - "import my past sessions into paseo"
 
@@ -109,7 +109,7 @@ Paseo no guarda ninguna conversación propia. Cada registro de agente contiene �
 
 ### Disparadores en lenguaje natural
 
-- «이 세션 파세오로 가세요», «가세요 해줘», «파세오에 등록해줘»
+- «이 세션 파세오로 가세오», «가세오 해줘», «파세오로 가세요», «파세오에 등록해줘»
 - «과거 세션 파세오로 가져와줘»
 - "register this session to paseo", "send this session to paseo"
 - "import my past sessions into paseo"

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.2 — 2026-08-08
+
+- Corrected the Korean name: the plugin is **가세오**, not 가세요 — it rhymes with
+  파세오 (Paseo). Renamed across all five READMEs and the skill, and regenerated
+  the hero image with the corrected wordmark.
+- "파세오로 가세요" stays in the trigger lists as an alternate phrasing, since
+  that is the natural Korean imperative users actually say.
+
 ## 0.1.1 — 2026-08-08
 
 - Current-session detection now uses `$CLAUDE_CODE_SESSION_ID`, the ID Claude

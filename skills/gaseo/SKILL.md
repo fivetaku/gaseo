@@ -1,6 +1,6 @@
 ---
 name: gaseo
-description: Registers a Claude Code session with the Paseo app so it appears in Paseo's agent list and the conversation can be continued there. Handles both the session running right now and past sessions of a folder, via `paseo import` (a pointer, not a copy). Korean triggers "이 세션 파세오로 가세요", "가세요 해줘", "파세오에 등록해줘", "과거 세션 파세오로 가져와줘", "지난 대화 파세오에 추가해줘". English triggers "gaseo", "register this session to paseo", "send this session to paseo", "import my past sessions into paseo". Not for creating or managing new Paseo agents — the `paseo` skill owns that.
+description: Registers a Claude Code session with the Paseo app so it appears in Paseo's agent list and the conversation can be continued there. Handles both the session running right now and past sessions of a folder, via `paseo import` (a pointer, not a copy). Korean triggers "이 세션 파세오로 가세오", "가세오 해줘", "파세오로 가세요", "파세오에 등록해줘", "과거 세션 파세오로 가져와줘", "지난 대화 파세오에 추가해줘". English triggers "gaseo", "register this session to paseo", "send this session to paseo", "import my past sessions into paseo". Not for creating or managing new Paseo agents — the `paseo` skill owns that.
 ---
 
 # gaseo
@@ -20,7 +20,7 @@ gap this skill closes.
 
 Read the request:
 
-- "이 세션 등록해줘" / "가세요" / "파세오에 추가해줘" → **current-session mode** (Step 2)
+- "이 세션 등록해줘" / "가세오" / "파세오에 추가해줘" → **current-session mode** (Step 2)
 - "과거 세션 가져와줘" / "지난 대화 등록해줘" / `past` → **past-session mode** (Step 3)
 
 The target folder is whichever folder the user names; with none named, use the

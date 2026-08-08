@@ -1,6 +1,6 @@
 [English](README.md) | [한국어](README.ko.md) | 中文 | [日本語](README.ja.md) | [Español](README.es.md)
 
-# gaseo (가세요)
+# gaseo (가세오)
 
 <p align="center">
   <img src="assets/gaseo-hero-01.png" alt="gaseo" width="320">
@@ -8,7 +8,7 @@
 
 > **把你此刻正在聊的这个会话送进 Paseo —— 换个地方接着聊。**
 
-[Paseo](https://paseo.app) 的列表里只有它自己启动的 agent。你在终端敲 `claude` 开的会话根本不会出现，也没有办法从 App 里恢复。`gaseo` 补上了这个缺口：说一句「가세요」，你这一秒正在进行的对话就会以原来的标题出现在 Paseo 里，可以直接接着说下去。
+[Paseo](https://paseo.app) 的列表里只有它自己启动的 agent。你在终端敲 `claude` 开的会话根本不会出现，也没有办法从 App 里恢复。`gaseo` 补上了这个缺口：说一句「가세오」，你这一秒正在进行的对话就会以原来的标题出现在 Paseo 里，可以直接接着说下去。
 
 [快速开始](#快速开始) • [为什么用 gaseo](#为什么用-gaseo) • [工作原理](#工作原理) • [主要功能](#主要功能) • [命令](#命令) • [环境要求](#环境要求)
 
@@ -48,8 +48,8 @@
 
 直接说也行：
 
-- 「이 세션 파세오로 가세요」
-- 「가세요 해줘」
+- 「이 세션 파세오로 가세오」
+- 「가세오 해줘」
 - "register this session to paseo"
 - "import my past sessions into paseo"
 
@@ -109,7 +109,7 @@ Paseo 本身不存储对话。每条 agent 记录里只有一个指向 Claude �
 
 ### 自然语言触发词
 
-- 「이 세션 파세오로 가세요」「가세요 해줘」「파세오에 등록해줘」
+- 「이 세션 파세오로 가세오」「가세오 해줘」「파세오로 가세요」「파세오에 등록해줘」
 - 「과거 세션 파세오로 가져와줘」
 - "register this session to paseo", "send this session to paseo"
 - "import my past sessions into paseo"

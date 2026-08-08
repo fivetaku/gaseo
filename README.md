@@ -1,6 +1,6 @@
 English | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](README.ja.md) | [Español](README.es.md)
 
-# gaseo (가세요)
+# gaseo (가세오)
 
 <p align="center">
   <img src="assets/gaseo-hero-01.png" alt="gaseo" width="320">
@@ -8,7 +8,7 @@ English | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](READM
 
 > **Send the session you're in right now over to Paseo — and pick it up there.**
 
-[Paseo](https://paseo.app) lists only the agents it launched itself. A session you started by typing `claude` in a terminal never shows up, and there is no way to resume it from the app. `gaseo` closes that gap: say "가세요" and the conversation you are having this second appears in Paseo under its own title, ready to continue.
+[Paseo](https://paseo.app) lists only the agents it launched itself. A session you started by typing `claude` in a terminal never shows up, and there is no way to resume it from the app. `gaseo` closes that gap: say "가세오" and the conversation you are having this second appears in Paseo under its own title, ready to continue.
 
 [Quick Start](#quick-start) • [Why gaseo?](#why-gaseo) • [How it works](#how-it-works) • [Features](#features) • [Commands](#commands) • [Requirements](#requirements)
 
@@ -48,8 +48,8 @@ To bring in older conversations from this folder instead:
 
 Or just say it:
 
-- "이 세션 파세오로 가세요"
-- "가세요 해줘"
+- "이 세션 파세오로 가세오"
+- "가세오 해줘"
 - "register this session to paseo"
 - "import my past sessions into paseo"
 
@@ -111,7 +111,7 @@ is instant, needs no daemon restart, and never duplicates your data.
 
 ### Natural language triggers
 
-- "이 세션 파세오로 가세요", "가세요 해줘", "파세오에 등록해줘"
+- "이 세션 파세오로 가세오", "가세오 해줘", "파세오로 가세요", "파세오에 등록해줘"
 - "과거 세션 파세오로 가져와줘", "지난 대화 파세오에 추가해줘"
 - "register this session to paseo", "send this session to paseo"
 - "import my past sessions into paseo"

@@ -1,6 +1,6 @@
 [English](README.md) | [한국어](README.ko.md) | [中文](README.zh.md) | 日本語 | [Español](README.es.md)
 
-# gaseo (가세요)
+# gaseo (가세오)
 
 <p align="center">
   <img src="assets/gaseo-hero-01.png" alt="gaseo" width="320">
@@ -8,7 +8,7 @@
 
 > **いま話しているそのセッションを、Paseo へ送る。続きは向こうで。**
 
-[Paseo](https://paseo.app) の一覧に並ぶのは、Paseo 自身が起動したエージェントだけです。ターミナルで `claude` と打って始めたセッションは表示されず、アプリから再開する手段もありません。`gaseo` はその穴を埋めます。「가세요」と言えば、いままさに交わしている会話が元のタイトルのまま Paseo に現れ、そのまま続けられます。
+[Paseo](https://paseo.app) の一覧に並ぶのは、Paseo 自身が起動したエージェントだけです。ターミナルで `claude` と打って始めたセッションは表示されず、アプリから再開する手段もありません。`gaseo` はその穴を埋めます。「가세오」と言えば、いままさに交わしている会話が元のタイトルのまま Paseo に現れ、そのまま続けられます。
 
 [クイックスタート](#クイックスタート) • [なぜ gaseo か](#なぜ-gaseo-か) • [仕組み](#仕組み) • [主な機能](#主な機能) • [コマンド](#コマンド) • [必要環境](#必要環境)
 
@@ -48,8 +48,8 @@
 
 話しかけても動きます:
 
-- 「이 세션 파세오로 가세요」
-- 「가세요 해줘」
+- 「이 세션 파세오로 가세오」
+- 「가세오 해줘」
 - "register this session to paseo"
 - "import my past sessions into paseo"
 
@@ -109,7 +109,7 @@ Paseo は会話そのものを保存しません。各エージェントのレ�
 
 ### 自然言語トリガー
 
-- 「이 세션 파세오로 가세요」「가세요 해줘」「파세오에 등록해줘」
+- 「이 세션 파세오로 가세오」「가세오 해줘」「파세오로 가세요」「파세오에 등록해줘」
 - 「과거 세션 파세오로 가져와줘」
 - "register this session to paseo", "send this session to paseo"
 - "import my past sessions into paseo"
