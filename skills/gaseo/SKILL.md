@@ -28,8 +28,10 @@ current working directory.
 
 ### Step 2 — Register the current session
 
+Write a title first (see "Titles" below), then register with it:
+
 ```bash
-bash "${CLAUDE_PLUGIN_ROOT}/skills/gaseo/scripts/register.sh" [folder]
+bash "${CLAUDE_PLUGIN_ROOT}/skills/gaseo/scripts/register.sh" [folder] --title "<title>"
 ```
 
 Read the output:
@@ -38,8 +40,10 @@ Read the output:
 |------|---------|----------|
 | `DETECTED via=env …` | Resolved from Claude Code's own session ID | Reliable — mention the title in passing |
 | `DETECTED via=mtime …` | Guessed from the newest transcript | Quote the first message back and have the user confirm before relying on it |
-| `REGISTERED session=… cwd=…` | Success | Report that it now appears in Paseo under its original title |
-| `ALREADY_REGISTERED session=…` | Session is already a Paseo agent | Report that nothing was duplicated |
+| `REGISTERED session=… cwd=…` | Success | Report that it now appears in Paseo under the title you gave |
+| `ALREADY_REGISTERED session=…` | Session is already a Paseo agent | Report that nothing was duplicated. With `--title` the entry is retitled instead — say so |
+| `NAMED agent=… title=…` | The agent row was renamed | — |
+| `TITLED workspace=… title=…` | The workspace was retitled | — |
 | `ERROR …` (stderr, exit 1) | Failure | Go to Step 5 |
 
 How the current session is resolved, in order:
@@ -77,8 +81,10 @@ as context but never offer them.
 Call the same script once per chosen session ID:
 
 ```bash
-bash "${CLAUDE_PLUGIN_ROOT}/skills/gaseo/scripts/register.sh" <folder> <sessionId>
+bash "${CLAUDE_PLUGIN_ROOT}/skills/gaseo/scripts/register.sh" <folder> <sessionId> --title "<title>"
 ```
+
+Give each one its own title, derived from that row's first message.
 
 The folder must be the one the session actually ran in — the same folder the
 list came from — because Paseo keys the agent by `--cwd`. A folder Paseo has
@@ -86,7 +92,27 @@ never seen is fine: the workspace is created on import.
 
 Report the count registered and each title on its own line.
 
-### Step 5 — Errors
+### Step 5 — Titles
+
+Always pass `--title`. Without it Paseo titles the workspace after the git
+branch, so every session in one repo shows up in the app as another row called
+`main`, and the agent keeps a raw first message as its name — often `/model`,
+a pasted path, or a truncated wall of text.
+
+Write the title yourself; do not copy the first message verbatim:
+
+- The topic, not the request. `insane-search Playwright 폴백 수정`, not
+  `insane search 가장 마지막 폴백에 플레이라이트 있잖아 이게 제대로…`.
+- Around 30 characters, 40 at the outside — the app truncates.
+- The language the user works in.
+- For the live session, use what the session has actually been doing by now,
+  not just its opening line.
+- No session IDs, dates, or paths. The app already shows those.
+
+Re-running `register.sh` with a new `--title` on an already-registered session
+retitles it — that is how to fix a bad title.
+
+### Step 6 — Errors
 
 | Error | What to tell the user |
 |-------|----------------------|
@@ -98,7 +124,8 @@ Report the count registered and each title on its own line.
 ## Scripts
 
 - `scripts/register.sh` — detects the current session (or takes an explicit ID),
-  skips duplicates, runs `paseo import`. Args: `[folder] [sessionId]`
+  skips duplicates, runs `paseo import`, then applies the title to both the agent
+  and its workspace. Args: `[folder] [sessionId] [--title "<text>"]`
 - `scripts/list-sessions.sh` — recent sessions of a folder with registration
   status. Args: `[folder] [limit]`
 - `scripts/paseo-common.sh` — shared helpers (CLI lookup across macOS/Linux/
@@ -114,5 +141,9 @@ Report the count registered and each title on its own line.
   Underscores become `-` too, so `My_Repo` maps to `My-Repo`.
 - Duplicate detection greps `~/.paseo/agents` for the session ID, which also
   covers sessions Paseo launched itself.
+- Each import creates a workspace whose displayed name falls back to the git
+  branch when it has no title, which is why untitled imports all read as `main`.
+  `paseo workspace rename <workspaceId> "<title>"` sets it; the workspace id
+  lives in the agent record, since `paseo import --json` does not return it.
 - Only the `claude` provider is supported. Codex sessions are stored by date
   rather than by folder, so folder-to-session mapping does not apply to them.

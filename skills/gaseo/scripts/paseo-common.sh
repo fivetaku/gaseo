@@ -79,3 +79,46 @@ for line in sys.stdin:
         break
 ' 2>/dev/null || true
 }
+
+# Paseo agent id of an already-registered Claude Code session. Agent records are
+# named <agentId>.json and carry the provider session id in their body.
+agent_id_for_session() {
+  local sid="$1" f
+  [ -d "$PASEO_HOME/agents" ] || return 1
+  f="$(grep -rlF "\"$sid\"" "$PASEO_HOME/agents" 2>/dev/null | head -1)" || true
+  [ -n "$f" ] || return 1
+  basename "$f" .json
+}
+
+# Workspace a registered agent belongs to. Paseo writes one JSON record per
+# agent under $PASEO_HOME/agents/<folder-slug>/<agentId>.json; the slug rules
+# are Paseo's, so the file is found by searching rather than by rebuilding it.
+workspace_id_for_agent() {
+  local id="$1" f
+  [ -d "$PASEO_HOME/agents" ] || return 1
+  f="$(grep -rlF "\"$id\"" "$PASEO_HOME/agents" 2>/dev/null | head -1)" || true
+  [ -n "$f" ] || return 1
+  command -v python3 >/dev/null 2>&1 || return 1
+  python3 -c '
+import json, sys
+try:
+    w = json.load(open(sys.argv[1])).get("workspaceId") or ""
+except Exception:
+    w = ""
+print(w)
+' "$f"
+}
+
+# Give the workspace a human title and the agent a human name, so a folder with
+# several sessions does not show up in Paseo as a stack of identical rows named
+# after the git branch. Best-effort: a failure here never fails registration.
+apply_title() {
+  local paseo="$1" agent_id="$2" title="$3" wsid
+  [ -n "$title" ] || return 0
+  "$paseo" agent update "$agent_id" --name "$title" >/dev/null 2>&1 \
+    && echo "NAMED agent=$agent_id title=$title"
+  wsid="$(workspace_id_for_agent "$agent_id")" || return 0
+  [ -n "$wsid" ] || return 0
+  "$paseo" workspace rename "$wsid" "$title" >/dev/null 2>&1 \
+    && echo "TITLED workspace=$wsid title=$title"
+}

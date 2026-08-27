@@ -36,15 +36,18 @@ AskUserQuestion in the language given, then record the answer with
 
 ## Execute
 
-**Current-session mode** — run:
+**Current-session mode** — write a title for this session first (Step 5 of the
+skill: the topic in ~30 characters, in the user's language, based on what the
+session has actually been doing — not its raw first line), then run:
 
 ```bash
-bash "${CLAUDE_PLUGIN_ROOT}/skills/gaseo/scripts/register.sh" [folder]
+bash "${CLAUDE_PLUGIN_ROOT}/skills/gaseo/scripts/register.sh" [folder] --title "<title>"
 ```
 
 Quote the `DETECTED first_message=` line back to the user so they can confirm the
 right session was picked, then report `REGISTERED` or `ALREADY_REGISTERED` per
-Step 2 of the skill.
+Step 2 of the skill. Never omit `--title`: without it every session in a repo
+shows up in Paseo as another workspace called `main`.
 
 **Past-session mode** — run:
 
@@ -54,9 +57,10 @@ bash "${CLAUDE_PLUGIN_ROOT}/skills/gaseo/scripts/list-sessions.sh" [folder]
 
 Offer only unregistered rows: 4 or fewer via AskUserQuestion with
 `multiSelect: true`, 5 or more as a numbered text list. Register each chosen ID
-with `register.sh <folder> <sessionId>`, then report the titles registered.
+with `register.sh <folder> <sessionId> --title "<title>"`, giving each one its
+own title written from that row's first message, then report the titles used.
 
-On any `ERROR` line, follow Step 5 of the skill. Never restart the Paseo daemon
+On any `ERROR` line, follow Step 6 of the skill. Never restart the Paseo daemon
 without explicit user approval — it kills every running agent.
 
 Reply in the language of the request.

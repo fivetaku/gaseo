@@ -1,6 +1,20 @@
 # Changelog
 
 
+## 0.2.0 — 2026-08-27
+
+- **등록 시 제목을 붙인다.** `paseo import`가 만드는 워크스페이스는 제목이
+  비어 있어 깃 브랜치 이름으로 표시된다 — 한 레포에서 세션을 여러 개 보내면
+  Paseo 앱에 `main`이 줄줄이 쌓여 어느 게 뭔지 구분되지 않았다.
+  `register.sh`에 `--title "<text>"`를 추가하고, 등록 직후 그 제목을
+  에이전트 이름(`paseo agent update --name`)과 워크스페이스 제목
+  (`paseo workspace rename`)에 함께 적용한다.
+- 커맨드·스킬은 이제 등록 전에 제목을 직접 쓰도록 지시한다 — 첫 메시지를
+  그대로 복사하지 말고(`/model`, 붙여넣은 경로, 잘린 장문이 그대로 이름이
+  되던 문제) 무슨 작업이었는지 30자 안팎으로 요약한다.
+- 이미 등록된 세션에 `--title`을 다시 주면 제목만 갱신된다 — 잘못 붙은
+  이름을 고치는 경로.
+
 ## 0.1.4 — 2026-08-24
 
 - **Fix: first-run setup could wipe `settings.json`** — if the file was corrupted or contained comments (JSONC), the shared update-notifier installer re-wrote it as an empty object plus the hook, silently destroying all user settings. It now refuses to write when parsing fails and writes atomically (tmp + rename). Marketplace-wide propagation of the fix found in the ddiring v0.1.1 external review; reproduction-verified.

@@ -4,6 +4,10 @@
 #   register.sh [folder]              -> register the CURRENT session of that folder
 #   register.sh [folder] <sessionId>  -> register one specific session
 #
+# A --title "<text>" option (anywhere in the arguments) names the imported agent
+# AND its workspace. Without it Paseo titles the workspace after the git branch,
+# so every session in one repo lands in the app as another row called "main".
+#
 # Import is a link, not a copy: Paseo stores only a pointer to the session ID,
 # so the original transcript is never moved, altered, or duplicated.
 #
@@ -28,10 +32,20 @@ HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 err() { echo "$1" >&2; exit 1; }
 
-CWD="${1:-$PWD}"
+TITLE=""
+POS=()
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --title)   TITLE="${2:-}"; shift 2 || err "ERROR: --title needs a value" ;;
+    --title=*) TITLE="${1#--title=}"; shift ;;
+    *)         POS+=("$1"); shift ;;
+  esac
+done
+
+CWD="${POS[0]:-$PWD}"
 [ -d "$CWD" ] || err "ERROR: not a directory: $CWD"
 CWD="$(cd "$CWD" && pwd)"
-WANTED="${2:-}"
+WANTED="${POS[1]:-}"
 
 PROJ_DIR="$(proj_dir_for "$CWD")"
 [ -d "$PROJ_DIR" ] || err "ERROR: no session directory for this folder: $PROJ_DIR"
@@ -66,6 +80,11 @@ echo "DETECTED via=$HOW first_message=${FIRST:-(no message)}"
 
 if is_registered "$SESSION_ID"; then
   echo "ALREADY_REGISTERED session=$SESSION_ID"
+  # Re-running with --title is the supported way to retitle an existing entry.
+  if [ -n "$TITLE" ]; then
+    EXISTING="$(agent_id_for_session "$SESSION_ID")" || EXISTING=""
+    [ -n "$EXISTING" ] && apply_title "$PASEO" "$EXISTING" "$TITLE"
+  fi
   exit 0
 fi
 
@@ -74,3 +93,8 @@ OUT="$("$PASEO" import "$SESSION_ID" --provider claude --cwd "$CWD" --json 2>&1)
 
 echo "REGISTERED session=$SESSION_ID cwd=$CWD"
 echo "$OUT"
+
+# `paseo import --json` reports the agent id but not the workspace it created,
+# so the title is applied in a second step keyed off that id.
+AGENT_ID="$(printf '%s' "$OUT" | sed -n 's/.*"agentId"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)"
+[ -n "$AGENT_ID" ] && apply_title "$PASEO" "$AGENT_ID" "$TITLE"
