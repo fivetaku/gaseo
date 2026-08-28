@@ -1,6 +1,6 @@
 {
   "name": "gaseo",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Register a Claude Code session with Paseo so it shows up in the app and you can continue it there.",
   "author": {
     "name": "fivetaku",

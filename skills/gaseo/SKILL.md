@@ -99,15 +99,31 @@ branch, so every session in one repo shows up in the app as another row called
 `main`, and the agent keeps a raw first message as its name — often `/model`,
 a pasted path, or a truncated wall of text.
 
-Write the title yourself; do not copy the first message verbatim:
+**Format: `<대상> <한 일>`** — a noun phrase, 15–30 characters, in the language
+the user works in. Nothing else fits in the app's row.
 
-- The topic, not the request. `insane-search Playwright 폴백 수정`, not
-  `insane search 가장 마지막 폴백에 플레이라이트 있잖아 이게 제대로…`.
-- Around 30 characters, 40 at the outside — the app truncates.
-- The language the user works in.
-- For the live session, use what the session has actually been doing by now,
-  not just its opening line.
-- No session IDs, dates, or paths. The app already shows those.
+- **대상** — the thing worked on: plugin, file, feature, command. Named, not
+  described. `gaseo`, `insane-search Playwright 폴백`, `pumasi Cursor 워커`.
+- **한 일** — the outcome as a noun: `수정`, `조사`, `설계`, `배포`, `버그 원인`,
+  `E2E 검증`. Not the request, the result.
+
+Both parts are required. A title with only a 대상 (`gaseo`) does not
+distinguish two sessions on the same plugin; one with only a 한 일 (`버그 수정`)
+does not say where.
+
+Strip everything else — full sentences, 조사, question marks, quoted user
+wording, session IDs, dates, paths, `/command` names. The app already shows the
+folder and the date.
+
+For the live session, title it by what the session actually concluded, not by
+its opening line. The opening line is a request; the title is the result.
+
+| First message | Title |
+|---|---|
+| `gaseo 보낼때 이거 다 main으로 보내니까 구분이 안가는데 이거 정리해서 보낼수 없냐??` | `gaseo 워크스페이스 제목 부여` |
+| `insane search 가장 마지막 폴백에 플레이라이트 있잖아 이게 제대로 발동이 안되는거 같음` | `insane-search Playwright 폴백 수정` |
+| `/model` | `모델 전환` |
+| `Review this change for security vulnerabilities.` | `보안 리뷰` |
 
 Re-running `register.sh` with a new `--title` on an already-registered session
 retitles it — that is how to fix a bad title.

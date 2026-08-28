@@ -36,9 +36,11 @@ AskUserQuestion in the language given, then record the answer with
 
 ## Execute
 
-**Current-session mode** — write a title for this session first (Step 5 of the
-skill: the topic in ~30 characters, in the user's language, based on what the
-session has actually been doing — not its raw first line), then run:
+**Current-session mode** — write a title for this session first, then run:
+the format is `<대상> <한 일>` — a 15–30 character noun phrase in the user's
+language, naming the thing worked on plus the outcome (`gaseo 워크스페이스 제목
+부여`), based on what the session actually concluded rather than its opening
+line. Step 5 of the skill has the full rule and examples.
 
 ```bash
 bash "${CLAUDE_PLUGIN_ROOT}/skills/gaseo/scripts/register.sh" [folder] --title "<title>"
