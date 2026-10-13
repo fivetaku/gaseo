@@ -1,0 +1,33 @@
+{
+  "routes": [
+    {
+      "skill": "gaseo:gaseo",
+      "when": "이 세션을 Paseo 앱에 등록해 다른 기기에서 이어가려 할 때",
+      "priority": 30,
+      "keywords": [
+        "paseo에 등록",
+        "paseo 등록",
+        "paseo에 올려",
+        "파세오에 등록",
+        "파세오 등록",
+        "paseo에서 이어",
+        "파세오에서 이어",
+        "paseo import",
+        "세션 등록"
+      ],
+      "weak": [
+        "paseo",
+        "파세오"
+      ],
+      "context": [
+        "세션 등록",
+        "세션을 등록",
+        "앱에 등록",
+        "이어서 하",
+        "이어서 할",
+        "이어서 작업",
+        "import"
+      ]
+    }
+  ]
+}
