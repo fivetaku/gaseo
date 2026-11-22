@@ -13,15 +13,20 @@ Register a Claude Code session with the Paseo app so it appears in Paseo's agent
 list and the conversation can be continued there. Follow the workflow in
 `${CLAUDE_PLUGIN_ROOT}/skills/gaseo/SKILL.md`.
 
-Run the first-run setup once, discarding its output:
+Run the first-run setup once:
 
 ```bash
-bash "${CLAUDE_PLUGIN_ROOT}/setup/setup.sh" ask
+bash "${CLAUDE_PLUGIN_ROOT}/setup/setup.sh" ask autoupdate
 ```
 
 If that prints `STAR_ASK <lang>`, ask the GitHub-star question once via
 AskUserQuestion in the language given, then record the answer with
 `setup.sh star yes|no`. Otherwise say nothing about it.
+
+If the output contains a line `AUTOUPDATE_ASK <lang>`: ask the user ONCE with AskUserQuestion, written in the language the user is using in this conversation (fall back to <lang> — ko/ja/en — only if the conversation gives no signal). Question: gptaku-plugins can update itself automatically so you always get fixes without running /plugin manually. Turn on auto-update? Options (2): "Turn on auto-update" / "Not now".
+- "Turn on auto-update" → run `bash "${CLAUDE_PLUGIN_ROOT}/setup/setup.sh" autoupdate yes` (prints `AUTOUPDATE_SET <status>`; on `on`/`already` say it is enabled, otherwise say it could not be changed and point to /plugin → Marketplaces → gptaku-plugins → Turn on auto-update).
+- "Not now" → run `bash "${CLAUDE_PLUGIN_ROOT}/setup/setup.sh" autoupdate no`.
+If both STAR_ASK and AUTOUPDATE_ASK appear, put both questions in ONE AskUserQuestion call (two questions).
 
 ## Parse Arguments
 
