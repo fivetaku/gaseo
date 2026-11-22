@@ -1,6 +1,10 @@
 # Changelog
 
 
+## 0.2.3 — 2026-11-22
+- Update notifier refresh
+- Auto-update consent
+
 ## 0.2.2 — 2026-10-13
 - **gptaku-core 라우팅 적용.** `gptaku-core`를 의존성으로 선언하고 `routing.json`을 추가해, 이 플러그인 스킬에 맞는 요청이 오면 직접 처리하거나 기본 도구를 쓰기 전에 이 스킬을 먼저 쓰게 했다. 기존 사용자는 업데이트 후 `/reload-plugins`를 실행하거나 플러그인을 다시 설치해야 gptaku-core가 함께 설치된다. 끄기: `GPTAKU_ROUTER=off`.
 
