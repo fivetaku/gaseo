@@ -16,6 +16,8 @@ gap this skill closes.
 
 **Codex:** current-session registration only — the script uses `CODEX_THREAD_ID` and imports with `--provider codex`; listing past sessions (Step 3–4) is Claude Code only and not supported in Codex. In Codex, read `${CLAUDE_PLUGIN_ROOT}` as this plugin's root (two folders above this SKILL.md).
 
+In Codex, run `register.sh` with escalated permissions (outside the sandbox) and give the user a one-line reason: the `paseo` CLI and the Codex app-server it talks to cannot run inside the default sandbox (`uv_uptime EPERM`). The live thread is locked by this terminal, so Paseo cannot take it over directly; the script then forks it (conversation so far → a new thread) and registers the fork, printing `FORKED source=… fork=…`. Tell the user that Paseo continues a copy and that this terminal session stays as it is.
+
 ## Workflow
 
 ### Step 1 — Decide the mode
@@ -42,6 +44,7 @@ Read the output:
 |------|---------|----------|
 | `DETECTED via=env …` | Resolved from Claude Code's own session ID | Reliable — mention the title in passing |
 | `DETECTED via=mtime …` | Guessed from the newest transcript | Quote the first message back and have the user confirm before relying on it |
+| `FORKED source=… fork=…` (Codex) | The live Codex thread was copied because this terminal holds it | Say Paseo continues the copy; the terminal session is unchanged |
 | `REGISTERED session=… cwd=…` | Success | Report that it now appears in Paseo under the title you gave |
 | `ALREADY_REGISTERED session=…` | Session is already a Paseo agent | Report that nothing was duplicated. With `--title` the entry is retitled instead — say so |
 | `NAMED agent=… title=…` | The agent row was renamed | — |

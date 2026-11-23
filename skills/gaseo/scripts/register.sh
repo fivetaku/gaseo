@@ -20,9 +20,12 @@
 #
 # Codex: when $CLAUDE_CODE_SESSION_ID is unset and $CODEX_THREAD_ID is set, the
 # current Codex thread is imported with --provider codex (current session only).
+# The live thread is locked by its terminal, so when Paseo refuses it ("active
+# writer") the thread is forked and the fork is registered (FORKED line).
 #
 # Output contract:
-#   stdout, exit 0 — REGISTERED session=<id> cwd=<path>
+#   stdout, exit 0 — [FORKED source=<codex thread> fork=<new thread>]
+#                    REGISTERED session=<id> cwd=<path>
 #                  | ALREADY_REGISTERED session=<id>
 #   stderr, exit 1 — ERROR <message>
 # Plus, for REGISTERED/ALREADY_REGISTERED, an informational line on stdout:
@@ -104,8 +107,21 @@ if is_registered "$SESSION_ID" "$PROVIDER"; then
   exit 0
 fi
 
-OUT="$("$PASEO" import "$SESSION_ID" --provider "$PROVIDER" --cwd "$CWD" --json 2>&1)" \
-  || err "ERROR: paseo import failed: $OUT"
+if ! OUT="$("$PASEO" import "$SESSION_ID" --provider "$PROVIDER" --cwd "$CWD" --json 2>&1)"; then
+  # A live Codex thread is locked by the terminal writing it, so Paseo cannot resume it.
+  # Fork it (conversation so far -> new thread) and register the fork; the label keeps the
+  # original thread ID so a re-run finds it as ALREADY_REGISTERED.
+  if [ "$PROVIDER" = "codex" ] && printf '%s' "$OUT" | grep -q 'active writer'; then
+    FORK="$(python3 "$HERE/codex_fork.py" "$SESSION_ID" --cwd "$CWD" 2>&1)" \
+      || err "ERROR: codex thread is in use and could not be forked: $FORK"
+    echo "FORKED source=$SESSION_ID fork=$FORK"
+    OUT="$("$PASEO" import "$FORK" --provider codex --cwd "$CWD" --label "gaseo-source=$SESSION_ID" --json 2>&1)" \
+      || err "ERROR: paseo import failed: $OUT"
+    SESSION_ID="$FORK"
+  else
+    err "ERROR: paseo import failed: $OUT"
+  fi
+fi
 
 echo "REGISTERED session=$SESSION_ID cwd=$CWD"
 echo "$OUT"
