@@ -54,6 +54,13 @@ mtime_of() {
 # True when this session ID already appears in a Paseo agent record.
 is_registered() {
   [ -d "$PASEO_HOME/agents" ] || return 1
+  if [ "${2:-claude}" = "codex" ]; then
+    local f
+    for f in $(grep -rlF "\"$1\"" "$PASEO_HOME/agents" 2>/dev/null); do
+      grep -qF '"codex"' "$f" && return 0
+    done
+    return 1
+  fi
   grep -rlF "\"$1\"" "$PASEO_HOME/agents" >/dev/null 2>&1
 }
 
@@ -83,9 +90,13 @@ for line in sys.stdin:
 # Paseo agent id of an already-registered Claude Code session. Agent records are
 # named <agentId>.json and carry the provider session id in their body.
 agent_id_for_session() {
-  local sid="$1" f
+  local sid="$1" f c
   [ -d "$PASEO_HOME/agents" ] || return 1
-  f="$(grep -rlF "\"$sid\"" "$PASEO_HOME/agents" 2>/dev/null | head -1)" || true
+  f=""
+  for c in $(grep -rlF "\"$sid\"" "$PASEO_HOME/agents" 2>/dev/null); do
+    if [ "${2:-claude}" = "codex" ]; then grep -qF '"codex"' "$c" || continue; fi
+    f="$c"; break
+  done
   [ -n "$f" ] || return 1
   basename "$f" .json
 }

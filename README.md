@@ -28,6 +28,8 @@ English | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](READM
 /plugin install gaseo
 ```
 
+Codex: `codex plugin marketplace add fivetaku/gptaku_plugins`, then `codex plugin add gaseo@gptaku-plugins` (current session only).
+
 ### 3. Restart Claude Code
 
 (New commands only register after a restart.)

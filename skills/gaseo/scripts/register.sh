@@ -18,12 +18,15 @@
 #   3. the most recently modified transcript — a guess, since background
 #      subagent and hook-spawned sessions write here too and can be newer
 #
+# Codex: when $CLAUDE_CODE_SESSION_ID is unset and $CODEX_THREAD_ID is set, the
+# current Codex thread is imported with --provider codex (current session only).
+#
 # Output contract:
 #   stdout, exit 0 — REGISTERED session=<id> cwd=<path>
 #                  | ALREADY_REGISTERED session=<id>
 #   stderr, exit 1 — ERROR <message>
 # Plus, for REGISTERED/ALREADY_REGISTERED, an informational line on stdout:
-#   DETECTED via=explicit|env|mtime first_message=<first human line>
+#   DETECTED via=explicit|env|mtime provider=claude|codex first_message=<first human line>
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -47,11 +50,24 @@ CWD="${POS[0]:-$PWD}"
 CWD="$(cd "$CWD" && pwd)"
 WANTED="${POS[1]:-}"
 
-PROJ_DIR="$(proj_dir_for "$CWD")"
-[ -d "$PROJ_DIR" ] || err "ERROR: no session directory for this folder: $PROJ_DIR"
+PROVIDER="claude"
+# Codex: no Claude session ID but a Codex thread ID -> register this Codex thread.
+if [ -z "$WANTED" ] && [ -z "${CLAUDE_CODE_SESSION_ID:-}" ] && [ -n "${CODEX_THREAD_ID:-}" ]; then
+  PROVIDER="codex"
+fi
+
+if [ "$PROVIDER" = "claude" ]; then
+  PROJ_DIR="$(proj_dir_for "$CWD")"
+  [ -d "$PROJ_DIR" ] || err "ERROR: no session directory for this folder: $PROJ_DIR"
+fi
 
 HOW="explicit"
-if [ -n "$WANTED" ]; then
+if [ "$PROVIDER" = "codex" ]; then
+  # Codex exports the live thread's own ID; paseo resumes it via the Codex app-server.
+  SESSION_FILE=""
+  SESSION_ID="$CODEX_THREAD_ID"
+  HOW="env"
+elif [ -n "$WANTED" ]; then
   SESSION_FILE="$PROJ_DIR/$WANTED.jsonl"
   [ -f "$SESSION_FILE" ] || err "ERROR: session $WANTED not found in $PROJ_DIR"
 elif [ -n "${CLAUDE_CODE_SESSION_ID:-}" ] && [ -f "$PROJ_DIR/$CLAUDE_CODE_SESSION_ID.jsonl" ]; then
@@ -69,26 +85,26 @@ else
     || err "ERROR: no session files found in $PROJ_DIR"
   HOW="mtime"
 fi
-SESSION_ID="$(basename "$SESSION_FILE" .jsonl)"
+[ "$PROVIDER" = "codex" ] || SESSION_ID="$(basename "$SESSION_FILE" .jsonl)"
 
 PASEO="$(find_paseo)" || err "ERROR: paseo CLI not found (checked PATH and the default install paths)"
 
 # Show which session was picked, and how. `via=mtime` is a guess worth
 # confirming; `via=env` came from Claude Code's own session ID.
-FIRST="$(first_message "$SESSION_FILE")"
-echo "DETECTED via=$HOW first_message=${FIRST:-(no message)}"
+if [ "$PROVIDER" = "codex" ]; then FIRST="(codex thread)"; else FIRST="$(first_message "$SESSION_FILE")"; fi
+echo "DETECTED via=$HOW provider=$PROVIDER first_message=${FIRST:-(no message)}"
 
-if is_registered "$SESSION_ID"; then
+if is_registered "$SESSION_ID" "$PROVIDER"; then
   echo "ALREADY_REGISTERED session=$SESSION_ID"
   # Re-running with --title is the supported way to retitle an existing entry.
   if [ -n "$TITLE" ]; then
-    EXISTING="$(agent_id_for_session "$SESSION_ID")" || EXISTING=""
+    EXISTING="$(agent_id_for_session "$SESSION_ID" "$PROVIDER")" || EXISTING=""
     [ -n "$EXISTING" ] && apply_title "$PASEO" "$EXISTING" "$TITLE"
   fi
   exit 0
 fi
 
-OUT="$("$PASEO" import "$SESSION_ID" --provider claude --cwd "$CWD" --json 2>&1)" \
+OUT="$("$PASEO" import "$SESSION_ID" --provider "$PROVIDER" --cwd "$CWD" --json 2>&1)" \
   || err "ERROR: paseo import failed: $OUT"
 
 echo "REGISTERED session=$SESSION_ID cwd=$CWD"

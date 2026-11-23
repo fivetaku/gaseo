@@ -14,6 +14,8 @@ Paseo lists only the agents it launched itself. A session started by running
 `claude` in a terminal is invisible to it, with no way to resume. That is the
 gap this skill closes.
 
+**Codex:** current-session registration only — the script uses `CODEX_THREAD_ID` and imports with `--provider codex`; listing past sessions (Step 3–4) is Claude Code only and not supported in Codex. In Codex, read `${CLAUDE_PLUGIN_ROOT}` as this plugin's root (two folders above this SKILL.md).
+
 ## Workflow
 
 ### Step 1 — Decide the mode
@@ -161,5 +163,6 @@ retitles it — that is how to fix a bad title.
   branch when it has no title, which is why untitled imports all read as `main`.
   `paseo workspace rename <workspaceId> "<title>"` sets it; the workspace id
   lives in the agent record, since `paseo import --json` does not return it.
-- Only the `claude` provider is supported. Codex sessions are stored by date
-  rather than by folder, so folder-to-session mapping does not apply to them.
+- Providers: `claude` (current or past sessions) and `codex` (current session
+  only, via `$CODEX_THREAD_ID`; Codex stores sessions by date rather than by
+  folder, so past-session listing does not apply).
