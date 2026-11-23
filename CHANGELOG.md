@@ -2,6 +2,7 @@
 
 ## 0.3.0 — 2026-11-23
 - Codex에서도 같은 스킬로 동작: `CODEX_THREAD_ID`가 있고 `CLAUDE_CODE_SESSION_ID`가 없으면 현재 Codex 세션을 `paseo import <id> --provider codex`로 등록한다(제목 처리·중복 판단 동일). 과거 세션 목록은 Claude 전용.
+- Codex 터미널이 쓰고 있는 스레드는 Paseo가 이어받지 못한다(`already has an active writer`). 이때는 `codex app-server`의 `thread/fork`로 지금까지의 대화를 새 스레드로 복제해 그 사본을 등록하고(`FORKED source=… fork=…`), 원래 스레드 ID를 `gaseo-source` 라벨로 남겨 다시 실행해도 중복 등록하지 않는다. 터미널 세션은 그대로다. paseo CLI가 Codex 기본 샌드박스에서 실행되지 않으므로 Codex에서는 샌드박스 밖 권한으로 실행한다.
 
 
 ## 0.2.3 — 2026-11-22
